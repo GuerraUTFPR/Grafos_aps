@@ -6,6 +6,7 @@
 package Main;
 
 import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
 import java.util.Date;
 
 /**
@@ -17,12 +18,15 @@ public class LoggedInFacebookClient extends DefaultFacebookClient {
     private final String appSecret = "37f5ed9d9357dff29314217f82fc3228";
     
     private AccessToken accessToken;
-
+    
     public LoggedInFacebookClient() {
        this.accessToken = this.obtainAppAccessToken(appID, appSecret);
-       
     }
 
+    public String getStringToken(){
+        return this.accessToken.getAccessToken();
+    }
+    
     public AccessToken getAccessToken() {
         return accessToken;
     }

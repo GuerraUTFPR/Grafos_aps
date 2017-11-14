@@ -7,28 +7,51 @@ package Main;
 
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
-import com.restfb.FacebookClient.AccessToken;
-import com.restfb.Parameter;
-import com.restfb.types.Page;
-import com.restfb.types.User;
+import com.restfb.Version;
+import com.restfb.json.JsonObject;
+import com.restfb.Connection;
+import java.util.List;
 
 /**
  *
  * @author guerra
  */
 public class Main {
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       
-        
-        User user = facebookClient.fetchObject("me", User.class);
-        Page page = facebookClient.fetchObject("cocacola", Page.class,
-                Parameter.with("fields", "fan_count"));
 
-        out.println("User name: " + user.getName());
-        out.println("Page likes: " + page.getFanCount());
+        final String accessToken = "1679649692066290|37f5ed9d9357dff29314217f82fc3228";
+
+        FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Version.VERSION_2_6);
+
+        try {
+            Connection<JsonObject> currentPage = facebookClient.fetchConnection("cocacola/likes", JsonObject.class);
+            System.out.println(currentPage);
+            System.out.println("---");
+            System.out.println(currentPage.getData());
+            while (true) {
+                for (JsonObject obj : currentPage.getData()) {
+                    System.out.println(obj);//já vão ser um vértico no grafo
+                }
+                if (!currentPage.hasNext()) {
+                    break;
+                }
+                currentPage = facebookClient.fetchConnectionPage(currentPage.getNextPageUrl(), JsonObject.class);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
+    /*for (List<JsonObject> job : currentPage
+
+    
+        ) {
+            for (JsonObject obj : job) {
+            System.out.println(obj);
+        }
+    }*/
 }
