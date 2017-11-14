@@ -5,10 +5,31 @@
  */
 package Main;
 
+import com.restfb.DefaultFacebookClient;
+import java.util.Date;
+
 /**
  *
  * @author guerra
  */
-public class LoggedInFacebookClient {
+public class LoggedInFacebookClient extends DefaultFacebookClient {
+    private final String appID = "1679649692066290";
+    private final String appSecret = "37f5ed9d9357dff29314217f82fc3228";
     
+    private AccessToken accessToken;
+
+    public LoggedInFacebookClient() {
+       this.accessToken = this.obtainAppAccessToken(appID, appSecret);
+       
+    }
+
+    public AccessToken getAccessToken() {
+        return accessToken;
+    }
+    
+    public Date getExpires(){
+        return accessToken.getExpires();
+    }
+    
+   
 }
