@@ -1,0 +1,6 @@
+digraph G {
+"Haken - Empresa Júnior de Ciência da Computação" -> "CACIC - Centro Acadêmico de Ciência da Computação"
+"Haken - Empresa Júnior de Ciência da Computação" -> "Quark's Up - Soluções em Engenharia Eletrônica"
+"Haken - Empresa Júnior de Ciência da Computação" -> "Code.org"
+"Haken - Empresa Júnior de Ciência da Computação" -> "Desafio do Código #CodeWars"
+}

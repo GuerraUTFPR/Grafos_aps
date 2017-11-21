@@ -5,9 +5,14 @@
  */
 package Grafo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -81,7 +86,7 @@ public class Grafo {
         } else {
 
             for (Vertice v : this.getVertices()) {
-                System.out.println(v.getID() + " | " + v.getPageName()+ " | " + v.isVisited());
+                System.out.println(v.getID() + " | " + v.getPageName() + " | " + v.isVisited());
             }
         }
     }
@@ -95,31 +100,73 @@ public class Grafo {
             }
         }
     }
-    
-    public LinkedList<Vertice> getAllNonVisitedVertex(){
+
+    public LinkedList<Vertice> getAllNonVisitedVertex() {
         LinkedList<Vertice> novaLista = new LinkedList<Vertice>();
-        for (Vertice v : this.getVertices()){
-            if (!v.isVisited()){
+        for (Vertice v : this.getVertices()) {
+            if (!v.isVisited()) {
                 novaLista.add(v);
             }
         }
         return novaLista;
     }
-    
-    public void setTrueOnVertice(String verticeID){
-        for (Vertice v : this.getVertices()){
-            if (v.getID().equals(verticeID)){
+
+    public void setTrueOnVertice(String verticeID) {
+        for (Vertice v : this.getVertices()) {
+            if (v.getID().equals(verticeID)) {
                 v.setVisited(true);
             }
         }
     }
-    
+
     public void imprimeTudo() {
         System.out.println("-------------Vertices-------------");
         this.imprimeVertices();
         System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
         System.out.println("-------------Arestas-------------");
         this.imprimeArestas();
+    }
+
+    //retorna um vértice a partir do id
+    public Vertice getVerticeByID(String id) {
+        for (Vertice v : this.getVertices()) {
+            if (v.getID().equals(id)) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    public void checkEdges() {
+        /*para cada vertice do grafo eu verifico sua lista de quem ele curtiu para
+        estabelecer alguma aresta em comum
+        */
+        for (Vertice v : this.getVertices()) {
+            for (String id : v.getQuemEsteCurtiu()) {
+                if (!this.arestaContains(v.getID(), id)) {
+                    Aresta a = new Aresta(v, this.getVerticeByID(id));
+                    this.addAresta(a);
+                }
+            }
+        }
+    }
+
+    public void toGraphViz() throws FileNotFoundException, IOException {
+        //cria o arquivo de saida
+        File f = new File("src/Saida/viz.txt");
+        
+        FileWriter writer = new FileWriter(f);
+        
+        String init = "digraph G {\n";
+        writer.write(init);
+        
+        for (Aresta a : this.getArestas()) {
+            //fica escrevendo as arestas no arquivo de saida
+            String textToFile = "\"" + a.getV1().getPageName() + "\" -> \"" + a.getV2().getPageName() + "\"\n";
+            writer.write(textToFile);
+        }
+        writer.write("}");
+        writer.close();
     }
 
 }

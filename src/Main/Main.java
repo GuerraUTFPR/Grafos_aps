@@ -13,6 +13,7 @@ import com.restfb.FacebookClient;
 import com.restfb.Version;
 import com.restfb.json.JsonObject;
 import com.restfb.Connection;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -25,21 +26,18 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        
         /*
         
         O token de aplicação parece que nao da o acesso total, então gerei um token no site 
         do developers e utilizei.
         
-        o raio de coleta está para dois hops a partir da página inicial!
+        o raio de coleta está para dois hops a partir da página inicial!        
         
-        FALTA FAZER: um método que verifica a ligação entre os vértices(depois explico pessoalmente)...
-        
-        */
-        final String accessToken = "EAACEdEose0cBAMvsNOYgff0eSpWEW0XOniJLAEh9r8yxwXZBGnHjkZARkLc5VUpxdIZA0WZBnrdPC7p19vtELSjd7NHGISmMAdE76AYxy2eA637wHQMuMBFEh4Lz8y2rzvHkDBGRgDgXx9rJOIWECITNz09nMNGOITNzvWyG0JGZAZAZCMa2HjA7lZCRevu5ggJxgWCkN4DVYwZDZD";
-        //final String accessToken = "1679649692066290|37f5ed9d9357dff29314217f82fc3228";
+         */
+        //final String accessToken = "EAACEdEose0cBADLlo6faYHYNXOZAGHCkZBnMNSfJbQaAP7cGGzVjwHbyF0c4pVIZCEFisJ3ijXlJlZCbWfYMDNHudmJ7PoWKpZChcZA4yJCN36MLjLaLTvLGtidZCJ1hSBpPUEMXtCnisMPp6cnPSf4Crh5zA2w0jcYkr9ZCGFuZAY4yWFOqKLe5jNyvSWrqSx66IJBz4vpL9orl2LytubZAedZAuVRALRoQWRr3F0nWHE4pAZDZD";
+        final String accessToken = "1679649692066290|37f5ed9d9357dff29314217f82fc3228";
 
         Grafo graph = new Grafo();
 
@@ -60,7 +58,7 @@ public class Main {
             LinkedList<Vertice> verticesNaoVisitados = graph.getAllNonVisitedVertex();
 
             //coletar os likes ao raio de i
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 1; i++) {
                 //enquanto a lista de não visitados estiver com vértices eu vou pegando os likes
                 while (!verticesNaoVisitados.isEmpty()) {
                     Vertice v = verticesNaoVisitados.poll();
@@ -74,6 +72,7 @@ public class Main {
                         graph.addVertice(novoVertice);
                         Aresta novaAresta = new Aresta(v, novoVertice);
                         graph.addAresta(novaAresta);
+                        v.addQuemEleCurtiu(jobj.getString("id"));
                     }
                     graph.setTrueOnVertice(v.getID());
                 }
@@ -82,6 +81,13 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        //o método checkEdges olha todos os vértices checando se há alguma aresta em comum
+        graph.checkEdges();
+        
+        //imprime vértices e arestas do grafo
         graph.imprimeTudo();
+        
+        //cria o arquivo de entrada pra o GraphViz
+        graph.toGraphViz();
     }
 }
