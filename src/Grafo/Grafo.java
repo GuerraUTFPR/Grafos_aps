@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  *
@@ -86,7 +85,7 @@ public class Grafo {
         } else {
 
             for (Vertice v : this.getVertices()) {
-                System.out.println(v.getID() + " | " + v.getPageName() + " | " + v.isVisited());
+                System.out.println(v.getID() + " | " + v.getPageName() + " | " + v.isVisited()+ " | " + v.getGrauDoVertice());
             }
         }
     }
@@ -169,4 +168,33 @@ public class Grafo {
         writer.close();
     }
 
+    public int arestasComEsteVertice(String vID){
+        int valor = 0;
+        for (Aresta a : this.getArestas()){
+            if (a.getV1().getID().equals(vID) || a.getV2().getID().equals(vID)){
+                valor++;
+            }
+        }
+        return valor;
+    }
+    
+    public void calculaGrau(){
+        for (Vertice v : this.getVertices()){
+            int value = this.arestasComEsteVertice(v.getID());
+            v.setGrauDoVertice(value);
+        }
+    } 
+    
+    public String verticeComMaiorGrau(){
+        int valor = 0;
+        String nomeDaPage = new String();
+        for (Vertice v : this.getVertices()){
+            if (v.getGrauDoVertice() > valor){
+                valor = v.getGrauDoVertice();
+                nomeDaPage = v.getPageName();
+            }
+        }
+        return nomeDaPage;
+    }
+    
 }

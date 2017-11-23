@@ -36,8 +36,8 @@ public class Main {
         o raio de coleta está para dois hops a partir da página inicial!        
         
          */
-        //final String accessToken = "EAACEdEose0cBADLlo6faYHYNXOZAGHCkZBnMNSfJbQaAP7cGGzVjwHbyF0c4pVIZCEFisJ3ijXlJlZCbWfYMDNHudmJ7PoWKpZChcZA4yJCN36MLjLaLTvLGtidZCJ1hSBpPUEMXtCnisMPp6cnPSf4Crh5zA2w0jcYkr9ZCGFuZAY4yWFOqKLe5jNyvSWrqSx66IJBz4vpL9orl2LytubZAedZAuVRALRoQWRr3F0nWHE4pAZDZD";
-        final String accessToken = "1679649692066290|37f5ed9d9357dff29314217f82fc3228";
+        final String accessToken = "EAACEdEose0cBAL6meRL4B5HEGMZAbqnGdVUeKHkZBFFEPwtAKc2rHcmQFNFZCqLI30yKmHRNmzpMQ5Iqd6eHRf28A8RmGv1ZAXVcsQoZCiOxbtq0XmskC7ZCMdlWAYBAYEZAnBQ5iq0UZAthr8OZCkFGwj7zGmMsVMMZA4cQ0yFiaN6XCnuaCpvdyRjIaGOZCPh3t3371wRppFkgwZDZD";
+        //final String accessToken = "1679649692066290|37f5ed9d9357dff29314217f82fc3228";
 
         Grafo graph = new Grafo();
 
@@ -46,6 +46,9 @@ public class Main {
         System.out.println("Digite o nome da página inicial:");
         Scanner scan = new Scanner(System.in);
         String readder = scan.nextLine();
+        System.out.println("Digite o alcance do raio de busca");
+        int raio = scan.nextInt();
+        System.out.println("Iniciando a busca...");
 
         try {
             //pegando o Json da página solicitada.
@@ -58,7 +61,7 @@ public class Main {
             LinkedList<Vertice> verticesNaoVisitados = graph.getAllNonVisitedVertex();
 
             //coletar os likes ao raio de i
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < raio; i++) {
                 //enquanto a lista de não visitados estiver com vértices eu vou pegando os likes
                 while (!verticesNaoVisitados.isEmpty()) {
                     Vertice v = verticesNaoVisitados.poll();
@@ -84,10 +87,17 @@ public class Main {
         //o método checkEdges olha todos os vértices checando se há alguma aresta em comum
         graph.checkEdges();
         
+        //método para calcular o grau de cada vértice.
+        graph.calculaGrau();
+        
         //imprime vértices e arestas do grafo
         graph.imprimeTudo();
         
         //cria o arquivo de entrada pra o GraphViz
+        System.out.println("Busca Finalizada.\nCriando o arquivo de saida...");
         graph.toGraphViz();
+        
+        
+        System.out.println("Page com maior grau: "+graph.verticeComMaiorGrau());
     }
 }

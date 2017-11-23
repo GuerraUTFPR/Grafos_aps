@@ -17,14 +17,32 @@ public class Vertice {
     private String pageName;
     private List<String> idsDeQuemEsteCurtiu;
     private boolean visited;
+    private int grauDoVertice;
 
     public Vertice(String ID, String pageName) {
         this.ID = ID;
         this.pageName = pageName;
         this.visited = false;
         this.idsDeQuemEsteCurtiu = new ArrayList<>();
+        this.grauDoVertice = 0;
     }
 
+    public List<String> getIdsDeQuemEsteCurtiu() {
+        return idsDeQuemEsteCurtiu;
+    }
+
+    public void setIdsDeQuemEsteCurtiu(List<String> idsDeQuemEsteCurtiu) {
+        this.idsDeQuemEsteCurtiu = idsDeQuemEsteCurtiu;
+    }
+
+    public int getGrauDoVertice() {
+        return grauDoVertice;
+    }
+
+    public void setGrauDoVertice(int grauDoVertice) {
+        this.grauDoVertice = grauDoVertice;
+    }
+ 
     public String getID() {
         return ID;
     }
