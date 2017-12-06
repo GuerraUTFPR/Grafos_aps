@@ -36,7 +36,7 @@ public class Main {
         o raio de coleta está para dois hops a partir da página inicial!        
         
          */
-        final String accessToken = "EAACEdEose0cBAL6meRL4B5HEGMZAbqnGdVUeKHkZBFFEPwtAKc2rHcmQFNFZCqLI30yKmHRNmzpMQ5Iqd6eHRf28A8RmGv1ZAXVcsQoZCiOxbtq0XmskC7ZCMdlWAYBAYEZAnBQ5iq0UZAthr8OZCkFGwj7zGmMsVMMZA4cQ0yFiaN6XCnuaCpvdyRjIaGOZCPh3t3371wRppFkgwZDZD";
+        final String accessToken = "EAACEdEose0cBAMEk2Gg2uA3QS1IvZB3bgLjfW3T4RZBKctUWE91kw1ZC7Bm2ZAZCFQ3ZCZByYRerlhB1Is2ulC6GmBjyBY1jiogwpZAw6graGgTYZAAEBhx0vTZC4DT4I2x7c6ySB3nFBk4bAB6Iy6OrA3VamYolBl57oZAoWK800FWEnuNj6pWk5RctuRQRHjAAgVkz2UptBHvHAZDZD";
         //final String accessToken = "1679649692066290|37f5ed9d9357dff29314217f82fc3228";
 
         Grafo graph = new Grafo();
@@ -55,7 +55,11 @@ public class Main {
             JsonObject selectedPage = facebookClient.fetchObject(readder, JsonObject.class);
 
             //criando o vértices correspondente a página escolhida e adicionando ele no grafo.
-            Vertice pageV = new Vertice(selectedPage.getString("id"), selectedPage.getString("name"));
+            //Vertice vezao = new Vertice(selectedPage.getString(readder, readder), readder)
+            
+            String defaultString = null;
+            
+            Vertice pageV = new Vertice(selectedPage.getString("id",defaultString), selectedPage.getString("name",defaultString));
             graph.addVertice(pageV);
 
             LinkedList<Vertice> verticesNaoVisitados = graph.getAllNonVisitedVertex();
@@ -71,11 +75,11 @@ public class Main {
                     //cria os vértices correspondentes a cada página que curtiu a página escolhida.
                     //também já cria as arestas.
                     for (JsonObject jobj : selectedPageLikes.getData()) {
-                        Vertice novoVertice = new Vertice(jobj.getString("id"), jobj.getString("name"));
+                        Vertice novoVertice = new Vertice(jobj.getString("id",defaultString), jobj.getString("name",defaultString));
                         graph.addVertice(novoVertice);
                         Aresta novaAresta = new Aresta(v, novoVertice);
                         graph.addAresta(novaAresta);
-                        v.addQuemEleCurtiu(jobj.getString("id"));
+                        v.addQuemEleCurtiu(jobj.getString("id",defaultString));
                     }
                     graph.setTrueOnVertice(v.getID());
                 }
