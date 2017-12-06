@@ -1,7 +1,7 @@
-# Grafos_aps[
+### Grafos_aps
 
-Passo 1:
-  Clonar projeto via github: https://github.com/GuerraUTFPR/Grafos_aps
+* Passo 1:
+** Clonar projeto via github: https://github.com/GuerraUTFPR/Grafos_aps
 Passo 2: 
   Baixar a biblioteca RESTfb utilizada no link: https://github.com/restfb/restfb/releases/download/v2.0.0-rc.4/restfb-2.0.0-rc.4.zip
 Passo 3: 
